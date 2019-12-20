@@ -3,6 +3,8 @@ cmake_minimum_required( VERSION 3.16.1 ) # Latest version of CMake when this fil
 
 set( HEADER_FILES
     inc/Dx12HPerfApp.h
+    inc/CommonInc.h
+    inc/Win64App.h
 )
 
 set( SHADER_FILES
@@ -14,6 +16,7 @@ set( SHADER_FILES
 set( SRC_FILES
     src/main.cpp
     src/Dx12HPerfApp.cpp
+    src/Win64App.cpp
 )
 
 source_group( "Resources\\Shaders" FILES ${SHADER_FILES} )
