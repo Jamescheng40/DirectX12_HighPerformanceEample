@@ -9,8 +9,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 {
     
     std::cerr << "hello this is my first application";
-
-    Win64App* instance = Win64App::instance(hInstance);
+    std::wstring title(L"does this work");
+    
+    Win64App* instance = Win64App::instance(hInstance,title.c_str());
     
     instance->get_singleton()->Run();
     

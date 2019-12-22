@@ -9,13 +9,13 @@ class Win64App
 public:
 
 	//creating singleton object for Win64App class 
-	static Win64App* instance(HINSTANCE hInstance);
+	static Win64App* instance(HINSTANCE hInstance, const WCHAR * title);
 
 	//running the applicaiton
 	int Run();
 
 	//initialize windows
-	void initialize(WNDCLASSEXW* windowClass);
+	void WinSettings(WNDCLASSEXW* windowClass);
 
 	//get single created object
 	static Win64App* get_singleton();
@@ -24,7 +24,7 @@ public:
 
 protected:
 	// Create an application instance.
-	Win64App(HINSTANCE hInst);
+	Win64App(HINSTANCE hInst, const WCHAR* mWintitle);
 	// Destroy the application instance and all windows associated with this application.
 	virtual ~Win64App();
 
@@ -33,6 +33,7 @@ protected:
 private:
 	HINSTANCE m_hInstance;
 	static HWND m_hwnd;
+	const WCHAR* m_wintitle;
 };
 
 class Win64helper 
@@ -43,8 +44,7 @@ public:
 
 	// Window title.
 	std::wstring m_title;
-
-
+	
 
 
 };
