@@ -7,10 +7,10 @@ static Win64App* m_singleton = nullptr;
 HWND Win64App::m_hwnd = nullptr;
 
 
-Win64App* Win64App::instance(HINSTANCE hInstance,const  WCHAR * title)
+Win64App* Win64App::instance(HINSTANCE hInstance,const  WCHAR * title, int height, int width)
 {
 
-    Win64App* instance = new Win64App(hInstance, title);
+    Win64App* instance = new Win64App(hInstance, title, height, width);
     m_singleton  = instance;
     return instance;
     
@@ -29,10 +29,10 @@ int Win64App::Run()
     MSG msg = { 0 };
     while (msg.message != WM_QUIT)
     {
-        if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+        if (PeekMessageW(&msg, 0, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            DispatchMessageW(&msg);
         }
     }
 
@@ -60,8 +60,10 @@ void WinSettings(WNDCLASSEXW* wndClass)
 
 }
 
-Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle)
-    :m_hInstance(hInst)
+Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle, int height, int width)
+    :m_hInstance(hInst),
+    m_height(height),
+    m_width(width)
 {
     // Windows 10 Creators update adds Per Monitor V2 DPI awareness context.
 // Using this awareness context allows the client area of the window 
@@ -85,12 +87,14 @@ Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle)
     wndClass.lpszMenuName = nullptr;
     wndClass.lpszClassName = m_wintitle;
 
+
+    //creating windows
     if (!RegisterClassExW(&wndClass))
     {
         MessageBoxA(NULL, "Unable to register the window class.", "Error", MB_OK | MB_ICONERROR);
     }
-    int clientWidth = 1280; int clientHeight = 720;
-    RECT windowRect = { 0, 0, clientWidth, clientHeight };
+
+    RECT windowRect = { 0, 0, m_width, m_height };
     AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, FALSE);
 
     HWND hWnd = CreateWindowW(m_wintitle, m_wintitle,
@@ -105,7 +109,7 @@ Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle)
     }
 
 
-    ShowWindow(hWnd, SW_SHOW);
+    //ShowWindow(hWnd, SW_SHOW);
 
 
     
@@ -131,7 +135,7 @@ LRESULT Win64App::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     }
                  break;
     }
-    return DefWindowProc(hWnd, message, wParam, lParam);
+    return DefWindowProcW(hWnd, message, wParam, lParam);
 
 }
 

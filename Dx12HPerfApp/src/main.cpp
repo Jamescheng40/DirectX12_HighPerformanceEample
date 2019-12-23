@@ -9,9 +9,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 {
     
     std::cerr << "hello this is my first application";
-    std::wstring title(L"does this work");
+    std::wstring title(L"DX12 High Performance Application");
     
-    Win64App* instance = Win64App::instance(hInstance,title.c_str());
+    Win64App* instance = Win64App::instance(hInstance,title.c_str(), 720, 1280);
     
     instance->get_singleton()->Run();
     
