@@ -1,6 +1,6 @@
 
 #include "CommonInc.h"
-
+#include "RenderBase.h"
 
 class Win64App 
 
@@ -20,6 +20,9 @@ public:
 	//get single created object
 	static Win64App* get_singleton();
 
+	//set and passed in pointer to indicate this application is graphics related
+	bool SetWin64AppState(std::shared_ptr<RenderBase> Appbase);
+
 protected:
 	// Create an application instance.
 	Win64App(HINSTANCE hInst, const WCHAR* mWintitle, int height, int width);
@@ -34,6 +37,7 @@ private:
 	const WCHAR* m_wintitle;
 	int m_height;
 	int m_width;
+	std::shared_ptr<RenderBase> m_AppBase;
 };
 
 class Win64helper 

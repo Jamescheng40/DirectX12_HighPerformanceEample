@@ -5,6 +5,9 @@ set( HEADER_FILES
     inc/Dx12HPerfApp.h
     inc/CommonInc.h
     inc/Win64App.h
+    inc/Dx12Helper.h
+    inc/driver/DX12Resources.h
+    inc/RenderBase.h
 )
 
 set( SHADER_FILES
@@ -17,6 +20,8 @@ set( SRC_FILES
     src/main.cpp
     src/Dx12HPerfApp.cpp
     src/Win64App.cpp
+    src/driver/DX12Resources.cpp
+    src/RenderBase.cpp
 )
 
 source_group( "Resources\\Shaders" FILES ${SHADER_FILES} )

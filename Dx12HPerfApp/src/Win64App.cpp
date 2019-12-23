@@ -46,6 +46,19 @@ Win64App* Win64App::get_singleton()
     return m_singleton;
 }
 
+bool Win64App::SetWin64AppState(std::shared_ptr<RenderBase> Appbase)
+{
+    bool result = true;
+    m_AppBase = Appbase;
+
+    //load content and ready to run
+
+
+
+
+    return result;
+}
+
 void WinSettings(WNDCLASSEXW* wndClass)
 {
     //wndClass->cbSize = sizeof(WNDCLASSEX);
@@ -109,7 +122,7 @@ Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle, int height, int wid
     }
 
 
-    //ShowWindow(hWnd, SW_SHOW);
+    ShowWindow(hWnd, SW_SHOW);
 
 
     
