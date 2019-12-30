@@ -47,6 +47,8 @@ target_include_directories( Dx12HPerfApp
 )
 
 target_link_libraries( Dx12HPerfApp
-    D3DCompiler.lib
-    Shlwapi.lib
+    PUBLIC d3d12.lib
+    PUBLIC D3DCompiler.lib
+    PUBLIC Shlwapi.lib
+    PUBLIC dxgi.lib
 )

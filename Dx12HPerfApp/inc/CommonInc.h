@@ -8,7 +8,6 @@
 #include <shellapi.h>
 
 #include <wrl.h>
-#include <d3d12.h>
 #include <cstdint>  // For uint64_t
 #include <queue>    // For std::queue
 
@@ -18,4 +17,5 @@
 
 #include <iostream>
 #include <fstream>
+#include <d3dcompiler.h>
 

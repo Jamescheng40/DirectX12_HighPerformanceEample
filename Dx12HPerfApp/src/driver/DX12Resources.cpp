@@ -8,7 +8,7 @@ CommandQueue::CommandQueue(Microsoft::WRL::ComPtr<ID3D12Device2> device, D3D12_C
 	//initializing command queue
 	D3D12_COMMAND_QUEUE_DESC desc = {};
 	desc.Type = type;
-	desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_GLOBAL_REALTIME;
+	desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
 	desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 	desc.NodeMask = 0;
 
@@ -112,9 +112,7 @@ void CommandQueue::Flush()
 
 Microsoft::WRL::ComPtr<ID3D12CommandQueue> CommandQueue::GetD3D12CommandQueue() const
 {
-
-
-	return Microsoft::WRL::ComPtr<ID3D12CommandQueue>();
+	return m_d3d12CommandQueue;
 }
 
 Microsoft::WRL::ComPtr<ID3D12CommandAllocator> CommandQueue::CreateCommandAllocator()
