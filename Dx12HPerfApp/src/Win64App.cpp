@@ -39,10 +39,10 @@ int Win64App::Run()
     MSG msg = { 0 };
     while (msg.message != WM_QUIT)
     {
-        if (PeekMessageW(&msg, 0, 0, 0, PM_REMOVE))
+        if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
-            DispatchMessageW(&msg);
+            DispatchMessage(&msg);
         }
     }
 
@@ -296,6 +296,7 @@ LRESULT Win64App::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
     {
         m_AppPtr = iter->second;
     }
+    if(m_AppPtr){
     switch (message) {
     case WM_CLOSE:
         DestroyWindow(hWnd);
@@ -311,10 +312,18 @@ LRESULT Win64App::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
         RenderEventArgs renderEventArgs(0.0f, 0.0f);
         m_AppPtr->OnRender(renderEventArgs);
 
-         break;
+         
+    }
+    break;
+    default:
+        return DefWindowProcW(hWnd, message, wParam, lParam);
     }
     }
-    return DefWindowProcW(hWnd, message, wParam, lParam);
+    else 
+    {
+        return DefWindowProcW(hWnd, message, wParam, lParam);
+    }
+    return 0;
 
 }
 

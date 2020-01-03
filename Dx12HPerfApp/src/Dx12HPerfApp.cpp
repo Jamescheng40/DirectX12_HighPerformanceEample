@@ -3,8 +3,12 @@
 #include "CommonInc.h"
 #include "Win64App.h"
 
+
 using namespace Microsoft::WRL;
 using namespace DirectX;
+
+
+
 
 #include <algorithm> 
 #if defined(min)
@@ -44,16 +48,10 @@ static VertexPosColor g_Vertices[8] = {
     { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  // 7
 };
 
-//index buffer which number is represented by vertex position above
-static WORD g_Indicies[36] =
-{
-    0, 1, 2, 0, 2, 3,
-    4, 6, 5, 4, 7, 6,
-    4, 5, 1, 4, 1, 0,
-    3, 2, 6, 3, 6, 7,
-    1, 5, 6, 1, 6, 2,
-    4, 0, 3, 4, 3, 7
-};
+//index buffer which number is represented by vertex position above; make it a class if you want it to be flexible
+static DWORD g_Indicies[50000000];
+    //100];
+    //50000000];
 
 Dx12HPerfApp::Dx12HPerfApp()
      
@@ -62,6 +60,8 @@ Dx12HPerfApp::Dx12HPerfApp()
     m_Viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, 720, 1280);
     m_FoV = 45.0;
     m_ContentLoaded = false;
+ 
+    IndexRanGen();
 }
 
 Dx12HPerfApp::~Dx12HPerfApp()
@@ -91,7 +91,7 @@ bool Dx12HPerfApp::InitializeApp()
     ComPtr<ID3D12Resource> intermediateIndexBuffer;
     UpdateBufferResource(commandList.Get(),
         &m_IndexBuffer, &intermediateIndexBuffer,
-        _countof(g_Indicies), sizeof(WORD), g_Indicies);
+        _countof(g_Indicies), sizeof(DWORD), g_Indicies);
 
     // Create index buffer view.
     m_IndexBufferView.BufferLocation = m_IndexBuffer->GetGPUVirtualAddress();
@@ -230,8 +230,30 @@ Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> Dx12HPerfApp::CreateDescriptorHeap(
 
 void Dx12HPerfApp::OnUpdate(UpdateEventArgs& e)
 {
+
+    //fps area please move this to another place
+    static uint64_t frameCount = 0;
+    static double totalTime = 0;
+
+    super::OnUpdate(e);
+
+    m_UpdateClk.ClkTik();
+    
+    totalTime += m_UpdateClk.GetDeltaTimeInSec();
+    frameCount++;
+
+    if (totalTime > 1.0)
+    {
+        double fps = frameCount / totalTime;
+        char buffer[512];
+        sprintf_s(buffer, "FPS: %f\n", fps);
+        OutputDebugStringA(buffer);
+        frameCount = 0;
+        totalTime = 0.0;
+    }
+
     // Update the model matrix.
-    float angle = static_cast<float>(e.TotalTime * 90.0);
+    float angle = static_cast<float>( (m_UpdateClk.GetTotalTimeInSec()) * 90.0);
     const XMVECTOR rotationAxis = XMVectorSet(0, 1, 1, 0);
     m_ModelMatrix = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle));
 
@@ -249,7 +271,7 @@ void Dx12HPerfApp::OnUpdate(UpdateEventArgs& e)
 
 void Dx12HPerfApp::OnRender(RenderEventArgs& e)
 {
-    counter++;
+    
     super::OnRender(e);
     auto commandQueue = Win64App::get_singleton()->GetCommandQueue();
         //Application::Get().GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
@@ -430,7 +452,7 @@ UINT Dx12HPerfApp::Present()
 {
     UINT syncInterval = 0;
     UINT presentFlags = DXGI_PRESENT_ALLOW_TEARING;
-    ThrowIfFailed(m_dxgiSwapChain->Present(syncInterval, presentFlags));
+    //ThrowIfFailed(m_dxgiSwapChain->Present(syncInterval, presentFlags));
     m_CurrentBackBufferIndex = m_dxgiSwapChain->GetCurrentBackBufferIndex();
 
     return m_CurrentBackBufferIndex;
@@ -542,4 +564,16 @@ void Dx12HPerfApp::ResizeDepthBuffer(int width, int height)
             m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
     }
    
+}
+
+void Dx12HPerfApp::IndexRanGen()
+{
+    for (int i = 0; i < _countof(g_Indicies); i++)
+    {
+        //mesh random generator
+        g_Indicies[i] = rand() % 7;
+
+    }
+
+
 }

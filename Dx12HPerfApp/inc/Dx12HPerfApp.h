@@ -8,6 +8,12 @@
 #include <wrl.h>
 #include <dxgi1_5.h>
 #include <dxgi1_6.h>
+
+//utility including random generator
+#include "utility/timer.h"
+#include <time.h>
+#include <stdlib.h>
+
 class Dx12HPerfApp : public RenderBase
 {
 public:
@@ -69,6 +75,14 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(UINT numDescriptors, D3D12_DESCRIPTOR_HEAP_TYPE type);
 
+
+
+	//timer section 
+	timer m_UpdateClk;
+	timer m_RenderClk;
+
+
+
 protected:
 
 
@@ -83,8 +97,11 @@ protected:
 	virtual void OnResize(ResizeEventArgs& e) override;
 
 private:
+
+
+
 	//debug layer
-	int counter = 0;
+	int counter = 1;
 
 	void TransitionResource(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList2> commandList, Microsoft::WRL::ComPtr <ID3D12Resource> resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
 
@@ -140,4 +157,8 @@ private:
 
 	bool m_ContentLoaded;
 
+	//performance tuning
+	void IndexRanGen();
+
+	
 };

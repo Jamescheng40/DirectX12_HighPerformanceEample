@@ -8,6 +8,7 @@ set( HEADER_FILES
     inc/Dx12Helper.h
     inc/driver/DX12Resources.h
     inc/RenderBase.h
+    inc/utility/timer.h
 )
 
 set( SHADER_FILES
@@ -22,6 +23,7 @@ set( SRC_FILES
     src/Win64App.cpp
     src/driver/DX12Resources.cpp
     src/RenderBase.cpp
+    src/utility/timer.cpp
 )
 
 source_group( "Resources\\Shaders" FILES ${SHADER_FILES} )
