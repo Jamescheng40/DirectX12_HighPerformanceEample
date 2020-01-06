@@ -31,7 +31,7 @@ public:
 	static HWND m_hwnd;
 
 	//creating singleton object for Win64App class 
-	static Win64App* instance(HINSTANCE hInstance, const WCHAR * title, int height, int width);
+	static Win64App* instance(HINSTANCE hInstance, const WCHAR * title, int height, int width, bool hide);
 
 	//running the applicaiton
 	int Run();
@@ -86,9 +86,12 @@ public:
 	std::shared_ptr<RenderBase> m_AppBase;
 	
 
+	//swapchain show/hide option
+	bool m_hide;
+
 protected:
 	// Create an application instance.
-	Win64App(HINSTANCE hInst, const WCHAR* mWintitle, int height, int width);
+	Win64App(HINSTANCE hInst, const WCHAR* mWintitle, int height, int width, bool hide);
 	// Destroy the application instance and all windows associated with this application.
 	virtual ~Win64App();
 

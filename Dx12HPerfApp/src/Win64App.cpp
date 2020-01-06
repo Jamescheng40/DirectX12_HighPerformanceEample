@@ -7,10 +7,10 @@ static Win64App* m_singleton = nullptr;
 HWND Win64App::m_hwnd = nullptr;
 
 
-Win64App* Win64App::instance(HINSTANCE hInstance,const  WCHAR * title, int height, int width)
+Win64App* Win64App::instance(HINSTANCE hInstance,const  WCHAR * title, int height, int width, bool hide)
 {
 
-    Win64App* instance = new Win64App(hInstance, title, height, width);
+    Win64App* instance = new Win64App(hInstance, title, height, width, hide);
     m_singleton  = instance;
     return instance;
     
@@ -213,10 +213,11 @@ void Win64App::Flush()
 
 }
 
-Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle, int height, int width)
+Win64App::Win64App(HINSTANCE hInst, const WCHAR * mWintitle, int height, int width, bool hide)
     :m_hInstance(hInst),
     m_height(height),
-    m_width(width)
+    m_width(width),
+    m_hide(hide)
 {
     // Windows 10 Creators update adds Per Monitor V2 DPI awareness context.
 // Using this awareness context allows the client area of the window 

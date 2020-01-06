@@ -57,7 +57,7 @@ Dx12HPerfApp::Dx12HPerfApp()
      
 {
     m_ScissorRect = CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX);
-    m_Viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, 720, 1280);
+    m_Viewport = CD3DX12_VIEWPORT(0.0f, 0.0f,  Win64App::get_singleton()->m_height, Win64App::get_singleton()->m_width);
     m_FoV = 45.0;
     m_ContentLoaded = false;
  
@@ -186,7 +186,7 @@ bool Dx12HPerfApp::InitializeApp()
     m_ContentLoaded = true;
 
     // Resize/Create the depth buffer.
-    ResizeDepthBuffer(720, 1280);
+    ResizeDepthBuffer(Win64App::get_singleton()->m_height, Win64App::get_singleton()->m_width);
 
 
     //swapchain and stuff
@@ -264,7 +264,7 @@ void Dx12HPerfApp::OnUpdate(UpdateEventArgs& e)
     m_ViewMatrix = XMMatrixLookAtLH(eyePosition, focusPoint, upDirection);
 
     // Update the projection matrix.
-    float aspectRatio = 1280 / static_cast<float>(720);
+    float aspectRatio = Win64App::get_singleton()->m_width / static_cast<float>(Win64App::get_singleton()->m_width);
     m_ProjectionMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(m_FoV), aspectRatio, 0.1f, 100.0f);
 
 }
@@ -335,7 +335,7 @@ void Dx12HPerfApp::OnMouseWheel(MouseWheelEventArgs& e)
 
 void Dx12HPerfApp::OnResize(ResizeEventArgs& e)
 {
-    if (e.Width != 1280 || e.Height != 720)
+    if (e.Width != Win64App::get_singleton()->m_width || e.Height != Win64App::get_singleton()->m_height)
     {
         super::OnResize(e);
 
@@ -403,8 +403,8 @@ Microsoft::WRL::ComPtr<IDXGISwapChain4> Dx12HPerfApp::CreateSwapChain()
     ThrowIfFailed(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory4)));
 
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-    swapChainDesc.Width = 1280;
-    swapChainDesc.Height = 720;
+    swapChainDesc.Width = Win64App::get_singleton()->m_width;
+    swapChainDesc.Height = Win64App::get_singleton()->m_height;
     swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     swapChainDesc.Stereo = FALSE;
     swapChainDesc.SampleDesc = { 1, 0 };
@@ -452,7 +452,13 @@ UINT Dx12HPerfApp::Present()
 {
     UINT syncInterval = 0;
     UINT presentFlags = DXGI_PRESENT_ALLOW_TEARING;
-    //ThrowIfFailed(m_dxgiSwapChain->Present(syncInterval, presentFlags));
+
+
+    if(Win64App::get_singleton()->m_hide == false)
+    { 
+        ThrowIfFailed(m_dxgiSwapChain->Present(syncInterval, presentFlags));
+    }
+    
     m_CurrentBackBufferIndex = m_dxgiSwapChain->GetCurrentBackBufferIndex();
 
     return m_CurrentBackBufferIndex;
