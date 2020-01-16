@@ -98,6 +98,15 @@ protected:
 
 private:
 
+	// Indices of shader resources in the descriptor heap.
+	enum DescriptorHeapIndex : UINT32
+	{
+		UavParticlePosVelo0 = 0,
+		UavParticlePosVelo1 = UavParticlePosVelo0 + 1 ,
+		SrvParticlePosVelo0 = UavParticlePosVelo1  + 1,
+		SrvParticlePosVelo1 = SrvParticlePosVelo0  + 1,
+		DescriptorCount = SrvParticlePosVelo1 + 1
+	};
 
 
 	//debug layer
@@ -134,8 +143,12 @@ private:
 	// Depth buffer.
 	Microsoft::WRL::ComPtr<ID3D12Resource> m_DepthBuffer;
 
-	// Descriptor heap for depth buffer.
+	// Descriptor heap for depth buffer. uav sav
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_srvUavHeap;
+	UINT m_srvUavDescriptorSize;
+
+
 
 	// Root signature
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> m_RootSignature;

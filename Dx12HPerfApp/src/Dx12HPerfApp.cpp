@@ -37,7 +37,7 @@ struct VertexPosColor
 
 
 //rectangle cube definition
-static VertexPosColor g_Vertices[8] = {
+static VertexPosColor g_Vertices[16] = {
     { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
     { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
     { XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2
@@ -45,14 +45,51 @@ static VertexPosColor g_Vertices[8] = {
     { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4
     { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5
     { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6
-    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  // 7
+    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) },  // 7
+        { XMFLOAT3(-1.0f, 4.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0 8
+    { XMFLOAT3(-1.0f,  6.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1  9
+    { XMFLOAT3(1.0f,  6.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2 10
+    { XMFLOAT3(1.0f, 4.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 3 11
+    { XMFLOAT3(-1.0f, 4.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4 12
+    { XMFLOAT3(-1.0f,  6.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5 13
+    { XMFLOAT3(1.0f,  6.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6 14
+    { XMFLOAT3(1.0f, 4.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  //7 15
 };
 
+//static VertexPosColor g2_Vertices[8] =
+//{
+//    {},
+//    {},
+//    {},
+//    {},
+//    {},
+//    {}
+//
+//};
+
 //index buffer which number is represented by vertex position above; make it a class if you want it to be flexible
+
+//producing two cubic side by side 
+//static WORD g_Indicies[] =
+//{
+//    0, 1, 2, 0, 2, 3,
+//    4, 6, 5, 4, 7, 6,
+//    4, 5, 1, 4, 1, 0,
+//    3, 2, 6, 3, 6, 7,
+//    1, 5, 6, 1, 6, 2,
+//    4, 0, 3, 4, 3, 7,
+//               8, 9, 10, 8, 10, 11,
+//    12, 14, 13, 12, 15, 14,
+//    12, 13, 9, 12, 9, 8,
+//    11, 10, 14, 11, 14, 15,
+//    9, 13, 14, 9, 14, 10,
+//    12, 8, 11, 12, 11, 15
+//};
+
 static DWORD g_Indicies[50000000];
     //100];
-    //50000000];
-
+    //50 000 000]; 5 000 000 5mb   10 mb 15 mb 20 mb 25000000 25mb
+    //200 000 000 2g
 Dx12HPerfApp::Dx12HPerfApp()
      
 {
@@ -105,6 +142,23 @@ bool Dx12HPerfApp::InitializeApp()
     dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
     dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
     ThrowIfFailed(device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&m_DSVHeap)));
+
+    //compute area
+    {
+        //srv and uav descriptor
+        D3D12_DESCRIPTOR_HEAP_DESC srvUavHeapDesc = {};
+        srvUavHeapDesc.NumDescriptors = DescriptorCount;
+        srvUavHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+        srvUavHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+        ThrowIfFailed(device->CreateDescriptorHeap(&srvUavHeapDesc, IID_PPV_ARGS(&m_srvUavHeap)));
+        m_srvUavDescriptorSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+
+
+    }
+    // Load compute shader
+    ComPtr<ID3DBlob> computeShader;
+    ThrowIfFailed(D3DReadFileToBlob(L"ComputeShader.cso", &computeShader));
 
     // Load the vertex shader.
     ComPtr<ID3DBlob> vertexShaderBlob;
@@ -267,6 +321,8 @@ void Dx12HPerfApp::OnUpdate(UpdateEventArgs& e)
     float aspectRatio = Win64App::get_singleton()->m_width / static_cast<float>(Win64App::get_singleton()->m_width);
     m_ProjectionMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(m_FoV), aspectRatio, 0.1f, 100.0f);
 
+    counter++;
+
 }
 
 void Dx12HPerfApp::OnRender(RenderEventArgs& e)
@@ -310,8 +366,8 @@ void Dx12HPerfApp::OnRender(RenderEventArgs& e)
     mvpMatrix = XMMatrixMultiply(mvpMatrix, m_ProjectionMatrix);
     commandList->SetGraphicsRoot32BitConstants(0, sizeof(XMMATRIX) / 4, &mvpMatrix, 0);
 
-    commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
-
+     commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
+ 
     // Present
     {
         TransitionResource(commandList, backBuffer,
