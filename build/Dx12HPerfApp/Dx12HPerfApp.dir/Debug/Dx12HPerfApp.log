@@ -1,0 +1,8 @@
+﻿  main.cpp
+  Dx12HPerfApp.cpp
+  Win64App.cpp
+  DX12Resources.cpp
+  RenderBase.cpp
+  timer.cpp
+  Generating Code...
+  Dx12HPerfApp.vcxproj -> C:\james\test\build\bin\Debug\Dx12HPerfApp.exe

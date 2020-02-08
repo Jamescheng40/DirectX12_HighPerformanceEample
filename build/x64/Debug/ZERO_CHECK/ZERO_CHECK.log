@@ -1,0 +1,8 @@
+﻿  Checking Build System
+  CMake is re-running because C:/james/test/build/Dx12HPerfApp/CMakeFiles/generate.stamp is out-of-date.
+    the file 'C:/james/test/Dx12HPerfApp/CMakeLists.txt'
+    is newer than 'C:/james/test/build/Dx12HPerfApp/CMakeFiles/generate.stamp.depend'
+    result='-1'
+  -- Configuring done
+  -- Generating done
+  -- Build files have been written to: C:/james/test/build

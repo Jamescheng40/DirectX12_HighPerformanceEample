@@ -1,0 +1,10 @@
+^C:\JAMES\TEST\BUILD\CMAKEFILES\D4F42699BC99D4C762F746B9F22694E3\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/james/test -BC:/james/test/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/james/test/build/DirectX12HighPerformance.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

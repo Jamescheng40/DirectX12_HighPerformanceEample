@@ -1,0 +1,3 @@
+C:/james/test/build/CMakeFiles/ALL_BUILD.dir
+C:/james/test/build/CMakeFiles/ZERO_CHECK.dir
+C:/james/test/build/Dx12HPerfApp/CMakeFiles/Dx12HPerfApp.dir

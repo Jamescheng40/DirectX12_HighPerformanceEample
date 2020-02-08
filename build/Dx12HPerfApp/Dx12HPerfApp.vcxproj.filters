@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\james\test\Dx12HPerfApp\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\james\test\Dx12HPerfApp\src\Dx12HPerfApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\james\test\Dx12HPerfApp\src\Win64App.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\james\test\Dx12HPerfApp\src\driver\DX12Resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\james\test\Dx12HPerfApp\src\RenderBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\james\test\Dx12HPerfApp\src\utility\timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\Dx12HPerfApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\CommonInc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\Win64App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\Dx12Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\driver\DX12Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\RenderBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\james\test\Dx12HPerfApp\inc\utility\timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\james\test\Dx12HPerfApp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FXCompile Include="C:\james\test\Dx12HPerfApp\shaders\VertexShader.hlsl">
+      <Filter>Resources\Shaders</Filter>
+    </FXCompile>
+    <FXCompile Include="C:\james\test\Dx12HPerfApp\shaders\PixelShader.hlsl">
+      <Filter>Resources\Shaders</Filter>
+    </FXCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1A71374F-89C6-3922-89DD-4BD6EDDACDF4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{6081B1DE-6885-3769-BEA1-02EF022FFA76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{937F72A7-E394-3EC1-B264-765A913D41BD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7C2CFA34-FE68-376F-A23B-2968AAEBFEB1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

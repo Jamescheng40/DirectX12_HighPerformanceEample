@@ -14,7 +14,6 @@ set( HEADER_FILES
 set( SHADER_FILES
     shaders/VertexShader.hlsl
     shaders/PixelShader.hlsl
-    shaders/ComputeShader.hlsl
 )
 
 

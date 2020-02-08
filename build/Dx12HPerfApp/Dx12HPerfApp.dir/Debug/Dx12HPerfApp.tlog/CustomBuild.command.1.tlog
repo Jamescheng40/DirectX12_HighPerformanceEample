@@ -1,0 +1,10 @@
+^C:\JAMES\TEST\DX12HPERFAPP\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/james/test -BC:/james/test/build --check-stamp-file C:/james/test/build/Dx12HPerfApp/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
